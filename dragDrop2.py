@@ -30,4 +30,4 @@ ActionChains(driver).drag_and_drop(source,target).perform()
 time.sleep(20)
 
 # close
-driver.close()
+#driver.close()
