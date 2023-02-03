@@ -1,5 +1,5 @@
 import time
-
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -40,14 +40,30 @@ driver.switch_to.new_window()
 driver.close()
 time.sleep(2)
 driver.switch_to.window(driver.window_handles[1])
-driver.find_element(By.NAME,"name").send_keys("Akashvani")
-driver.find_element(By.XPATH,"//input[@class='validate[required,custom[email]]']").send_keys("abcd@gmail.com")
-driver.find_element(By.NAME,"telephone").send_keys("1234567890")
-driver.find_element(By.NAME,"country").send_keys("Mt Kailash")
-driver.find_element(By.NAME,"company").send_keys("Shiva groups pvt Lmt")
-driver.find_element(By.NAME,"message").send_keys("Om Nama Shiva ya")
+
+Name = driver.find_element(By.NAME,"name")
+Email = driver.find_element(By.XPATH,"//input[@class='validate[required,custom[email]]']")
+Phone = driver.find_element(By.NAME,"telephone")
+Country = driver.find_element(By.NAME,"country")
+Company = driver.find_element(By.NAME,"company")
+Message = driver.find_element(By.NAME,"message")
+
+
+def fill_form(na,em,ph,con,com,mes):
+    Name.send_keys(na)
+    Email.send_keys(em)
+    Phone.send_keys(ph)
+    Country.send_keys(con)
+    Company.send_keys(com)
+    Message.send_keys(mes)
+
+
+fill_form("Akashvani","abcd@gmail.com","1234567890","Mt Kailash","Shiva groups pvt lmt","OM Nama Shiva ya")
 time.sleep(3)
+
 driver.find_element(By.LINK_TEXT,"Submit").click()
 time.sleep(5)
-x = driver.find_element(By.XPATH,"//section[@id='presscore-contact-form-widget-3']/form/div[1]/div").text
-assert x == "Feedback has been sent to the administrator"
+
+x = driver.find_element(By.XPATH,"//section[@id='presscore-contact-form-widget-3']/form/div[1]/div")
+assert x.text == "Feedback has been sent to the administrator"
+
