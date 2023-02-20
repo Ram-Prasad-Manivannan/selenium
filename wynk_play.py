@@ -38,7 +38,7 @@ for i in range(1, num+1):
 freq = 44100
 
 # Recording duration
-duration = 5
+duration = 120
 
 # Start recorder with the given values
 # of duration and sample frequency
