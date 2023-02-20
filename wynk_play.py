@@ -1,6 +1,11 @@
+import cv2
 import sounddevice as sd
 from scipy.io.wavfile import write
 import wavio as wv
+
+import pygame
+import pygame.camera
+
 import time
 
 from selenium import webdriver
@@ -54,3 +59,11 @@ write("recording0.wav", freq, recording)
 
 # Convert the NumPy array to audio file
 wv.write("recording1.wav", recording, freq, sampwidth=2)
+
+# ScreenShot Camera operation
+pygame.camera.init()
+camlist = pygame.camera.list_cameras()
+cam = pygame.camera.Camera(camlist[0], (640, 480))
+cam.start()
+image = cam.get_image()
+pygame.image.save(image, "Self2.jpg")
