@@ -3,7 +3,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import wavio as wv
 
-import pygame
+import imageio_ffmpeg
 import pygame.camera
 
 import time
@@ -39,26 +39,24 @@ for i in range(1, num+1):
     elem = driver.find_element(By.XPATH,f"//div[@tabindex={i}]//div/a[@title]")
     print(f"Iterations {i} -:- ",elem.text)
 
-# Sampling frequency
-freq = 44100
+# # Sampling frequency
+# freq = 44100
 
-# Recording duration
-duration = 120
+# # Recording duration
+# duration = 120
 
-# Start recorder with the given values
-# of duration and sample frequency
-recording = sd.rec(int(duration * freq),
-                   samplerate=freq, channels=2)
+# # Start recorder with the given values of duration and sample frequency
+# recording = sd.rec(int(duration * freq), samplerate=freq, channels=2)
 
-# Record audio for the given number of seconds
-sd.wait()
+# # Record audio for the given number of seconds
+# sd.wait()
 
-# This will convert the NumPy array to an audio
-# file with the given sampling frequency
-write("recording0.wav", freq, recording)
+# # This will convert the NumPy array to an audio
+# # file with the given sampling frequency
+# write("recording0.wav", freq, recording)
 
-# Convert the NumPy array to audio file
-wv.write("recording1.wav", recording, freq, sampwidth=2)
+# # Convert the NumPy array to audio file
+# wv.write("recording1.wav", recording, freq, sampwidth=2)
 
 # ScreenShot Camera operation
 pygame.camera.init()
@@ -67,3 +65,17 @@ cam = pygame.camera.Camera(camlist[0], (640, 480))
 cam.start()
 image = cam.get_image()
 pygame.image.save(image, "Self2.jpg")
+
+from subprocess import Popen
+from subprocess import call
+
+cmd = 'ffmpeg -y -rtbufsize 2000M -f dshow  -i video="screen-capture-recorder" -s 1920x1080 -b:v 512k -r 20 -vcodec libx264 test.avi'
+
+
+def terminate(process):
+    if process.poll() is None:
+        call('taskkill /F /T /PID ' + str(process.pid))
+
+
+videoRecording = Popen(cmd)      # start recording
+terminate(videoRecording)        # terminates recording
