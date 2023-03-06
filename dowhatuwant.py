@@ -18,7 +18,6 @@ driver.get("https://www.google.com")
 f = driver.find_element(By.TAG_NAME,"iframe")
 driver.switch_to.frame(f)
 
-# clicking on no thanks button
 driver.find_element(By.TAG_NAME,"button").click()
 time.sleep(1)
 
